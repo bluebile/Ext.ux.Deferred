@@ -136,6 +136,7 @@ Ext.define('Ext.ux.Promise', {
             args = Array.prototype.slice.call(arguments, 0);
 
         me.setState(Ext.ux.Promise.REJECTED);
+        me.arguments = arguments;
 
         if (me.failureQueue.length > 0) {
             while (me.failureQueue.length > 0) {
