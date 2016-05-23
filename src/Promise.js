@@ -6,6 +6,8 @@
  *
  */
 Ext.define('Ext.ux.Promise', {
+    requires: ['Ext.Error'],
+
     inheritableStatics: {
         /**
          * Pending state
@@ -105,6 +107,7 @@ Ext.define('Ext.ux.Promise', {
                         if (result) results.push(result);
                     }
                     catch (err) {
+                        console.error(err)
                         errors.push(err);
                     }
                 }
@@ -143,6 +146,7 @@ Ext.define('Ext.ux.Promise', {
                         if (result) results.push(result);
                     }
                     catch (err) {
+                        console.error(err)
                         errors.push(err);
                     }
                 }
