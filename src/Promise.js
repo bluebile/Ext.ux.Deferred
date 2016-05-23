@@ -95,6 +95,7 @@ Ext.define('Ext.ux.Promise', {
             args = Array.prototype.slice.call(arguments, 0);
 
         me.setState(Ext.ux.Promise.FULFILLED);
+        me.arguments = arguments;
 
         // Resolve it only if it needed
         if (me.successQueue.length > 0) {
@@ -175,8 +176,20 @@ Ext.define('Ext.ux.Promise', {
 
         if (!(me.deferred instanceof Ext.ux.Deferred)) me.deferred = Ext.create('Ext.ux.Deferred');
 
-        if (typeof onSuccess === 'function') me.successQueue.push(onSuccess);
-        if (typeof onFailure === 'function') me.failureQueue.push(onFailure);
+        if (typeof onSuccess === 'function') {
+            if (me.resolved()) {
+                onSuccess.apply(null, me.arguments);
+            } else {
+                me.successQueue.push(onSuccess);
+            }
+        }
+        if (typeof onFailure === 'function') {
+            if (me.rejected()) {
+                onFailure.apply(null, me.arguments);
+            } else {
+                me.failureQueue.push(onFailure);
+            }
+        }
 
         return me.deferred.promise();
     },
